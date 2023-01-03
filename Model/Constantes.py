@@ -1,5 +1,6 @@
 import const
-
+const.MA_PREMIERE_CONSTANTE = "Ceci est une constante chaîne de caractères"
+const.MA_SECONDE_CONSTANTE = 3.14
 # Constantes concernant les Cellules du démineur
 const.CONTENU = "Contenu"
 # Une cellule peut être connue (visible) ou non
