@@ -20,3 +20,16 @@ def type_cellule(cell: dict) -> bool:
         and (0 <= cell[const.CONTENU] <= 8 or cell[const.CONTENU] == const.ID_MINE)
 
 
+def isContenuCorrect(entier : int) -> bool:
+    r = False
+    if entier == int:
+        if (8 >= entier >= 0) or entier == const.ID_MINE():
+            r = True
+    return r
+
+def construireCellule(contenu:int=0, visibilite:bool=False) -> dict:
+    if not (isinstance(contenu, int) and 0 <= contenu <= 9):
+        raise ValueError(f"construireCellule : le contenu {contenu} n'est pas correct")
+    if not isinstance(visibilite, bool):
+        raise TypeError(f"construireCellule : le second paramètre {type(visibilite)} n'est pas un booléen")
+    return {contenu,visibilite}
