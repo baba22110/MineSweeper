@@ -1,8 +1,9 @@
 # Model/Cellule.py
 #
 
+import const
 from Model.Constantes import *
-
+from Model.Coordonnee import *
 #
 # Modélisation d'une cellule de la grille d'un démineur
 #
@@ -19,17 +20,16 @@ def type_cellule(cell: dict) -> bool:
         and type(cell[const.VISIBLE] == bool) and type(cell[const.CONTENU]) == int \
         and (0 <= cell[const.CONTENU] <= 8 or cell[const.CONTENU] == const.ID_MINE)
 
-
-def isContenuCorrect(entier : int) -> bool:
+def isContenuCorrect(n : int) -> bool:
     r = False
-    if entier == int:
-        if (8 >= entier >= 0) or entier == const.ID_MINE():
-            r = True
+    if type(n) == int:
+        r = (n >= 0 and n <= 8) or (n == const.ID_MINE)
     return r
 
-def construireCellule(contenu:int=0, visibilite:bool=False) -> dict:
-    if not (isinstance(contenu, int) and 0 <= contenu <= 9):
+
+def construireCellule(contenu=0, visibilite=False) -> dict:
+    if type(contenu) != int:
         raise ValueError(f"construireCellule : le contenu {contenu} n'est pas correct")
-    if not isinstance(visibilite, bool):
+    if type(visibilite) != bool:
         raise TypeError(f"construireCellule : le second paramètre {type(visibilite)} n'est pas un booléen")
-    return {contenu,visibilite}
+    return {contenu:visibilite}

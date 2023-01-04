@@ -1,7 +1,6 @@
-import pygame
 from Controller.Controller import Controller
 from View.MineSweeper import MineSweeper
-import const
+from Model.Cellule import *
 from Model.Constantes import *
 const.MA_PREMIERE_CONSTANTE = "Ceci est une constante chaîne de caractères"
 const.MA_SECONDE_CONSTANTE = 3.14
@@ -11,7 +10,6 @@ const.MA_SECONDE_CONSTANTE = 3.14
 
 # Essais graphiques
 #
-
 
 # Calcul de la taille de la fenêtre
 # Nombre de cellules
