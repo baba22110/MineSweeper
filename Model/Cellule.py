@@ -34,7 +34,7 @@ def construireCellule (contenu = 0, visible = False):
         raise ValueError(f"construireCellule : le contenu ({contenu}) n'est pas correct")
     if type(visible) != bool:
         raise TypeError(f"construireCellule : le second paramètre ({type(visible)}) n'est pas un booléen")
-    return {const.CONTENU : contenu, const.VISIBLE : visible}
+    return {const.CONTENU : contenu, const.VISIBLE : visible, const.ANNOTATION: None}
 
 
 def getContenuCellule(cellule:dict) -> int:
