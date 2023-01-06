@@ -29,13 +29,13 @@ def construireCoordonnee(num_ligne: int, num_colonne: int) -> tuple:
 
 
 def getLigneCoordonnee(coordonee: tuple) -> int:
-    if len(coordonee) != 2 or type(coordonee[0]) != int or type(coordonee[1]) != int or coordonee[0] < 0 or coordonee[1] < 0:
+    if type_coordonnee(coordonee) == False:
         raise TypeError("getLigneCoordonnee : Le paramètre n'est pas une coordonnée")
     return coordonee[0]
 
 
 def getColonneCoordonnee(coordonee: tuple) -> int:
-    if len(coordonee) != 2 or type(coordonee[0]) != int or type(coordonee[1]) != int or coordonee[0] < 0 or coordonee[1] < 0:
+    if type_coordonnee(coordonee) == False:
         raise TypeError("getLigneCoordonnee : Le paramètre n’est pas une coordonnée")
     return coordonee[1]
 
