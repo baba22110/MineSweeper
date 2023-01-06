@@ -79,3 +79,9 @@ def isAnnotationCorrecte(anno: str) -> bool:
     return anno == None or anno == const.DOUTE or anno == const.FLAG
 
 
+def getAnnotationCellule(cellule: dict):
+    if type_cellule(cellule) == False:
+        raise TypeError("getAnnotationCellule : le paramètre valeur_du paramètre n’est pas une cellule")
+    if len(cellule) != 3:
+        return None
+    return cellule[const.ANNOTATION]
