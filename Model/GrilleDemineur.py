@@ -154,6 +154,7 @@ def placerMinesGrilleDemineur(grille: list, nb_mine: int, coord: tuple) -> None:
         else:
             nb_mine += 1
         nb_mine -= 1
+    compterMinesVoisinesGrilleDemineur(grille)
     return None
 
 
