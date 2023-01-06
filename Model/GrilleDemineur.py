@@ -203,3 +203,17 @@ def getMinesRestantesGrilleDemineur(grille: list) -> int:
             if getAnnotationGrilleDemineur(grille, co) == const.FLAG:
                 nb += 1
     return getNbMinesGrilleDemineur(grille) - nb
+
+
+def gagneGrilleDemineur(grille: list) -> bool:
+    if type_grille_demineur(grille) == False:
+        raise ValueError("gagneGrilleDemineur : le paramètre n’est pas une grille.")
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    nb_lig = getNbLignesGrilleDemineur(grille)
+    for j in range(nb_lig):
+        for i in range(nb_col):
+            co = (j, i)
+            if (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == False and getContenuGrilleDemineur(grille, co) != const.ID_MINE) or (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE):
+                return False
+    return True
+

@@ -29,7 +29,7 @@ def isContenuCorrect(n: int) -> bool:
     return (n >= 0 and n <= 8) or (n == const.ID_MINE)
 
 
-def construireCellule (contenu = 0, visible = False):
+def construireCellule (contenu = 0, visible = False) -> dict:
     if isContenuCorrect(contenu) == False:
         raise ValueError(f"construireCellule : le contenu ({contenu}) n'est pas correct")
     if type(visible) != bool:
