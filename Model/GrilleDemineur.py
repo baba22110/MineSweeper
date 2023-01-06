@@ -78,16 +78,16 @@ def getNbColonnesGrilleDemineur(grille: list) -> int:
     return len(grille[0])
 
 
-def isCoordonneeCorrect(grille: list, coord: tuple) -> bool:
-    if type_grille_demineur(grille) == False or type_coordonnee(coord) == False:
+def isCoordonneeCorrecte(grille: list, coord: tuple) -> bool:
+    if type_grille_demineur(grille) == False or type(coord) != tuple :
         raise TypeError("isCoordonneeCorrecte : un des paramètres n’est pas du bon type.")
-    return getNbLignesGrilleDemineur(grille) > coord[0] and getNbColonnesGrilleDemineur(grille) > coord[1]
+    return getNbLignesGrilleDemineur(grille) > coord[0] and getNbColonnesGrilleDemineur(grille) > coord[1] and coord[0]>=0 and coord[1]>=0
 
 
 def getCelluleGrilleDemineur(grille: list, coord: tuple) -> dict:
     if type_grille_demineur(grille) == False or type_coordonnee(coord) == False:
         raise TypeError("getCelluleGrilleDemineur : un des paramètres n’est pas du bon type")
-    if isCoordonneeCorrect(grille,coord) == False:
+    if isCoordonneeCorrecte(grille,coord) == False:
         raise IndexError("getCelluleGrilleDemineur : coordonnée non contenue dans la grille.")
     return grille[coord[0]][coord[1]]
 
@@ -115,20 +115,20 @@ def contientMineGrilleDemineur(grille: list, coord: tuple) -> bool:
 
 
 def getCoordonneeVoisinsGrilleDemineur(grille: list, coord: tuple) -> list:
-    nb_ligne = getNbLignesGrilleDemineur(grille)
-    nb_col = getNbColonnesGrilleDemineur(grille)
-    l_coord=coord[0]
+    if type_grille_demineur(grille) == False or type(coord) != tuple:
+        raise TypeError("getCoordonneeVoisinsGrilleDemineur : un des paramètres n’est pas du bon type.")
+
+    if isCoordonneeCorrecte(grille, coord) == False:
+        raise IndexError("getCoordonneeVoisinsGrilleDemineur : la coordonnée n’est pas dans la grille.")
+
+    l_coord = coord[0]
     c_coord = coord[1]
-    voi =[]
-    if nb_ligne == 0 and nb_col != (coord[1] or 0):
-        voi.append(getCelluleGrilleDemineur(grille,(l_coord-1,c_coord-1)))
-        voi.append(getCelluleGrilleDemineur(grille,(l_coord-1,c_coord)))
-        voi.append(getCelluleGrilleDemineur(grille,(l_coord-1,c_coord+1)))
-
-    if nb_col == (coord[1] or 0) and nb_ligne != (coord[0] or 0):
-        voisine -= 3
-    if nb_col == (coord[1] or 0) and nb_ligne == (coord[0] or 0):
-        voisine -= 5
-
+    cell_voisines = []
+    voisins = [(l_coord - 1, c_coord - 1), (l_coord - 1, c_coord), (l_coord - 1, c_coord + 1), (l_coord, c_coord - 1), (l_coord, c_coord + 1), (l_coord + 1, c_coord - 1), (l_coord + 1, c_coord),
+               (l_coord + 1, c_coord + 1)]
+    for co_voisine in voisins:
+        if isCoordonneeCorrecte(grille, co_voisine) == True:
+            cell_voisines.append(co_voisine)
+    return cell_voisines
 
 

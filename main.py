@@ -2,8 +2,11 @@ from Controller.Controller import Controller
 from View.MineSweeper import MineSweeper
 from Model.Cellule import *
 from Model.Constantes import *
-const.MA_PREMIERE_CONSTANTE = "Ceci est une constante chaîne de caractères"
-const.MA_SECONDE_CONSTANTE = 3.14
+import const
+from Model.GrilleDemineur import *
+from Model.Cellule import *
+
+
 
 
 
