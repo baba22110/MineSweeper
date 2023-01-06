@@ -92,3 +92,23 @@ def getCelluleGrilleDemineur(grille: list, coord: tuple) -> dict:
     return grille[coord[0]][coord[1]]
 
 
+def getContenuGrilleDemineur(grille: list, coord: tuple) -> int:
+    return getContenuCellule(getCelluleGrilleDemineur(grille,coord))
+
+
+def setContenuGrilleDemineur(grille: list, coord: tuple, contenu: int) -> bool:
+    setContenuCellule(getCelluleGrilleDemineur(grille,coord),contenu)
+    return None
+
+
+def isVisibleGrilleDemineur(grille: list, coord: tuple) -> bool:
+    return isVisibleCellule(getCelluleGrilleDemineur(grille,coord))
+
+
+def setVisibleGrilleDemineur(grille: list, coord: tuple, visible: bool) -> None:
+    setVisibleCellule(getCelluleGrilleDemineur(grille,coord),visible)
+    return None
+
+
+def contientMineGrilleDemineur(grille: list, coord: tuple) -> bool:
+    return getContenuCellule(getCelluleGrilleDemineur(grille,coord)) == const.ID_MINE
