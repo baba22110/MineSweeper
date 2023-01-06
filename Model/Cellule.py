@@ -74,3 +74,8 @@ def contientMineCellule(cellule: dict) -> bool:
         raise TypeError("contientMineCellule : Le paramètre n’est pas une cellule.")
     return cellule[const.CONTENU] == const.ID_MINE
 
+
+def isAnnotationCorrecte(anno: str) -> bool:
+    return anno == None or anno == const.DOUTE or anno == const.FLAG
+
+
