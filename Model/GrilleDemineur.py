@@ -112,3 +112,23 @@ def setVisibleGrilleDemineur(grille: list, coord: tuple, visible: bool) -> None:
 
 def contientMineGrilleDemineur(grille: list, coord: tuple) -> bool:
     return getContenuCellule(getCelluleGrilleDemineur(grille,coord)) == const.ID_MINE
+
+
+def getCoordonneeVoisinsGrilleDemineur(grille: list, coord: tuple) -> list:
+    nb_ligne = getNbLignesGrilleDemineur(grille)
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    l_coord=coord[0]
+    c_coord = coord[1]
+    voi =[]
+    if nb_ligne == 0 and nb_col != (coord[1] or 0):
+        voi.append(getCelluleGrilleDemineur(grille,(l_coord-1,c_coord-1)))
+        voi.append(getCelluleGrilleDemineur(grille,(l_coord-1,c_coord)))
+        voi.append(getCelluleGrilleDemineur(grille,(l_coord-1,c_coord+1)))
+
+    if nb_col == (coord[1] or 0) and nb_ligne != (coord[0] or 0):
+        voisine -= 3
+    if nb_col == (coord[1] or 0) and nb_ligne == (coord[0] or 0):
+        voisine -= 5
+
+
+
