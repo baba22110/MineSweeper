@@ -213,7 +213,7 @@ def gagneGrilleDemineur(grille: list) -> bool:
     for j in range(nb_lig):
         for i in range(nb_col):
             co = (j, i)
-            if (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == False and getContenuGrilleDemineur(grille, co) != const.ID_MINE) or (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE):
+            if (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == False and getContenuGrilleDemineur(grille, co) != const.ID_MINE) or (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE) or getMinesRestantesGrilleDemineur(grille) != 0:
                 return False
     return True
 
