@@ -4,6 +4,7 @@ from Model.Cellule import *
 from Model.Coordonnee import *
 from random import shuffle, randint
 from itertools import filterfalse
+from random import *
 
 
 # Méthode gérant la grille du démineur
@@ -30,7 +31,7 @@ def type_grille_demineur(grille: list) -> bool:
     if nc == 0:
         return False
     return next(filterfalse(lambda line: type(line) == list and len(line) == nc
-                            and next(filterfalse(type_cellule, line), True) is True, grille), True) is True
+                                         and next(filterfalse(type_cellule, line), True) is True, grille), True) is True
     # Tableau régulier
     # nc = None
     # for line in grille:
@@ -52,14 +53,16 @@ def type_grille_demineur(grille: list) -> bool:
     # return True
 
 
-def construireGrilleDemineur(nb_ligne: int, nb_colonnes:int) -> list:
+def construireGrilleDemineur(nb_ligne: int, nb_colonnes: int) -> list:
     if type(nb_ligne) != int or type(nb_colonnes) != int:
-        raise TypeError(f"construireGrilleDemineur : Le nombre de lignes ({nb_ligne}) ou de colonnes ({nb_colonnes}) n’est pas un entier.")
+        raise TypeError(
+            f"construireGrilleDemineur : Le nombre de lignes ({nb_ligne}) ou de colonnes ({nb_colonnes}) n’est pas un entier.")
     if nb_ligne <= 0 or nb_colonnes <= 0:
-        raise ValueError(f" construireGrilleDemineur : Le nombre de lignes ({nb_ligne}) ou de colonnes ({nb_colonnes}) est négatif ou nul.")
+        raise ValueError(
+            f" construireGrilleDemineur : Le nombre de lignes ({nb_ligne}) ou de colonnes ({nb_colonnes}) est négatif ou nul.")
     grille = []
     for i in range(nb_ligne):
-        col=[]
+        col = []
         for j in range(nb_colonnes):
             col.append(construireCellule())
         grille.append(col)
@@ -79,39 +82,40 @@ def getNbColonnesGrilleDemineur(grille: list) -> int:
 
 
 def isCoordonneeCorrecte(grille: list, coord: tuple) -> bool:
-    if type_grille_demineur(grille) == False or type(coord) != tuple :
+    if type_grille_demineur(grille) == False or type(coord) != tuple:
         raise TypeError("isCoordonneeCorrecte : un des paramètres n’est pas du bon type.")
-    return getNbLignesGrilleDemineur(grille) > coord[0] and getNbColonnesGrilleDemineur(grille) > coord[1] and coord[0]>=0 and coord[1]>=0
+    return getNbLignesGrilleDemineur(grille) > coord[0] and getNbColonnesGrilleDemineur(grille) > coord[1] and coord[
+        0] >= 0 and coord[1] >= 0
 
 
 def getCelluleGrilleDemineur(grille: list, coord: tuple) -> dict:
     if type_grille_demineur(grille) == False or type_coordonnee(coord) == False:
         raise TypeError("getCelluleGrilleDemineur : un des paramètres n’est pas du bon type")
-    if isCoordonneeCorrecte(grille,coord) == False:
+    if isCoordonneeCorrecte(grille, coord) == False:
         raise IndexError("getCelluleGrilleDemineur : coordonnée non contenue dans la grille.")
     return grille[coord[0]][coord[1]]
 
 
 def getContenuGrilleDemineur(grille: list, coord: tuple) -> int:
-    return getContenuCellule(getCelluleGrilleDemineur(grille,coord))
+    return getContenuCellule(getCelluleGrilleDemineur(grille, coord))
 
 
 def setContenuGrilleDemineur(grille: list, coord: tuple, contenu: int) -> bool:
-    setContenuCellule(getCelluleGrilleDemineur(grille,coord),contenu)
+    setContenuCellule(getCelluleGrilleDemineur(grille, coord), contenu)
     return None
 
 
 def isVisibleGrilleDemineur(grille: list, coord: tuple) -> bool:
-    return isVisibleCellule(getCelluleGrilleDemineur(grille,coord))
+    return isVisibleCellule(getCelluleGrilleDemineur(grille, coord))
 
 
 def setVisibleGrilleDemineur(grille: list, coord: tuple, visible: bool) -> None:
-    setVisibleCellule(getCelluleGrilleDemineur(grille,coord),visible)
+    setVisibleCellule(getCelluleGrilleDemineur(grille, coord), visible)
     return None
 
 
 def contientMineGrilleDemineur(grille: list, coord: tuple) -> bool:
-    return getContenuCellule(getCelluleGrilleDemineur(grille,coord)) == const.ID_MINE
+    return getContenuCellule(getCelluleGrilleDemineur(grille, coord)) == const.ID_MINE
 
 
 def getCoordonneeVoisinsGrilleDemineur(grille: list, coord: tuple) -> list:
@@ -124,11 +128,32 @@ def getCoordonneeVoisinsGrilleDemineur(grille: list, coord: tuple) -> list:
     l_coord = coord[0]
     c_coord = coord[1]
     cell_voisines = []
-    voisins = [(l_coord - 1, c_coord - 1), (l_coord - 1, c_coord), (l_coord - 1, c_coord + 1), (l_coord, c_coord - 1), (l_coord, c_coord + 1), (l_coord + 1, c_coord - 1), (l_coord + 1, c_coord),
+    voisins = [(l_coord - 1, c_coord - 1), (l_coord - 1, c_coord), (l_coord - 1, c_coord + 1), (l_coord, c_coord - 1),
+               (l_coord, c_coord + 1), (l_coord + 1, c_coord - 1), (l_coord + 1, c_coord),
                (l_coord + 1, c_coord + 1)]
     for co_voisine in voisins:
         if isCoordonneeCorrecte(grille, co_voisine) == True:
             cell_voisines.append(co_voisine)
     return cell_voisines
+
+
+def placerMinesGrilleDemineur(grille: list, nb_mine: int, coord: tuple) -> None:
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    nb_lig = getNbLignesGrilleDemineur(grille)
+    if nb_mine < 0 or nb_mine >= (nb_lig * nb_col):
+        raise ValueError("placerMinesGrilleDemineur : Nombre de bombes à placer incorrect")
+    if isCoordonneeCorrecte(grille, coord) == False:
+        raise IndexError("placerMinesGrilleDemineur : la coordonnée n’est pas dans la grille.")
+    if type_grille_demineur(grille) == False:
+        raise TypeError("placerMinesGrilleDemineur : le premiers paramètres n’est pas du bon type.")
+
+    while nb_mine > 0:
+        co_mine = (randint(0, nb_lig), randint(0, nb_col))
+        if isCoordonneeCorrecte(grille, co_mine) == True and getContenuGrilleDemineur(grille, co_mine) != const.ID_MINE and co_mine != coord:
+            setContenuGrilleDemineur(grille, co_mine, const.ID_MINE)
+        else:
+            nb_mine += 1
+        nb_mine -= 1
+    return None
 
 
