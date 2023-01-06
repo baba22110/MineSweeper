@@ -157,3 +157,20 @@ def placerMinesGrilleDemineur(grille: list, nb_mine: int, coord: tuple) -> None:
     return None
 
 
+def compterMinesVoisinesGrilleDemineur(grille: list):
+    if type_grille_demineur(grille) == False:
+        raise TypeError("compterMinesVoisinesGrilleDemineur : le premiers paramètres n’est pas du bon type.")
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    nb_lig = getNbLignesGrilleDemineur(grille)
+    for j in range(nb_lig):
+        for i in range(nb_col):
+            co = (j, i)
+            if getContenuGrilleDemineur(grille, co) != const.ID_MINE:
+                nb_mine = 0
+                co_voisine = getCoordonneeVoisinsGrilleDemineur(grille, (j, i))
+                for z in co_voisine:
+                    if getContenuGrilleDemineur(grille, z) == const.ID_MINE:
+                        nb_mine += 1
+                setContenuGrilleDemineur(grille, co, nb_mine)
+    return None
+
