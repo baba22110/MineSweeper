@@ -257,3 +257,22 @@ def decouvrirGrilleDemineur(grille: list, coord: tuple) -> set:
                     cell_a_explorer.append(j)
         i += 1
     return set(co_decouvert)
+
+
+def simplifierGrilleDemineur(grille: list, coord: tuple) -> set:
+    resultat = []
+    cellule = getCelluleGrilleDemineur(grille, coord)
+    if isVisibleCellule(cellule) == True:
+        voisins = getCoordonneeVoisinsGrilleDemineur(grille, coord)
+        nb_drapeau = 0
+        for co_voisines in voisins:
+            cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
+            if getAnnotationCellule(cell_voisines) == const.FLAG:
+                nb_drapeau += 1
+        if nb_drapeau == getContenuCellule(cellule):
+            for co_voisines in voisins:
+                cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
+                if getAnnotationGrilleDemineur(grille, co_voisines) == None and isVisibleCellule(cell_voisines) == False:
+                    resultat.append(co_voisines)
+    return set(resultat)
+
