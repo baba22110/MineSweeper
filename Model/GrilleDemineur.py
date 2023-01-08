@@ -230,3 +230,13 @@ def perduGrilleDemineur(grille: list) -> bool:
                 return True
     return False
 
+
+def reinitialiserGrilleDemineur(grille: list) -> None:
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    nb_lig = getNbLignesGrilleDemineur(grille)
+    for j in range(nb_lig):
+        for i in range(nb_col):
+            co = (j, i)
+            reinitialiserCellule(co)
+    return None
+
