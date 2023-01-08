@@ -217,3 +217,16 @@ def gagneGrilleDemineur(grille: list) -> bool:
                 return False
     return True
 
+
+def perduGrilleDemineur(grille: list) -> bool:
+    if type_grille_demineur(grille) == False:
+        raise ValueError("perduGrilleDemineur : le paramètre n’est pas une grille.")
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    nb_lig = getNbLignesGrilleDemineur(grille)
+    for j in range(nb_lig):
+        for i in range(nb_col):
+            co = (j, i)
+            if isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE:
+                return True
+    return False
+
