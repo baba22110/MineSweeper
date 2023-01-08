@@ -276,3 +276,8 @@ def simplifierGrilleDemineur(grille: list, coord: tuple) -> set:
                     resultat.append(co_voisines)
     return set(resultat)
 
+
+def ajouterFlagsGrilleDemineur(grille: list, coord: tuple) -> set:
+    voisins = getCoordonneeVoisinsGrilleDemineur(grille, coord)
+    for co_voisines in voisins:
+        cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
