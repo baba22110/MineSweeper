@@ -240,3 +240,17 @@ def reinitialiserGrilleDemineur(grille: list) -> None:
             reinitialiserCellule(co)
     return None
 
+
+def decouvrirGrilleDemineur(grille: list, coord: tuple) -> set:
+    co_decouvert = []
+    co_decouvert.append(coord)
+    cell_a_explorer = [coord]
+    i = 0
+    while i < len(cell_a_explorer):
+        if getContenuCellule(getCelluleGrilleDemineur(grille, cell_a_explorer[i])) == 0:
+            cell_voisine = getCoordonneeVoisinsGrilleDemineur(grille, coord)
+            for j in cell_voisine:
+                co_decouvert.append(j)
+                if getContenuCellule(getCelluleGrilleDemineur(grille, j)) == 0:
+                    cell_a_explorer.append(j)
+    return set(co_decouvert)
