@@ -213,7 +213,7 @@ def gagneGrilleDemineur(grille: list) -> bool:
     for j in range(nb_lig):
         for i in range(nb_col):
             co = (j, i)
-            if (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == False and getContenuGrilleDemineur(grille, co) != const.ID_MINE) or (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE) or getMinesRestantesGrilleDemineur(grille) != 0:
+            if (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == False and getContenuGrilleDemineur(grille, co) != const.ID_MINE) or (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE) or getMinesRestantesGrilleDemineur(grille) > 0:
                 return False
     return True
 
@@ -237,20 +237,22 @@ def reinitialiserGrilleDemineur(grille: list) -> None:
     for j in range(nb_lig):
         for i in range(nb_col):
             co = (j, i)
-            reinitialiserCellule(co)
+            reinitialiserCellule(getCelluleGrilleDemineur(grille,co))
     return None
 
 
 def decouvrirGrilleDemineur(grille: list, coord: tuple) -> set:
     co_decouvert = []
     co_decouvert.append(coord)
-    cell_a_explorer = [coord]
+    cell_a_explorer = []
+    cell_a_explorer.append(coord)
     i = 0
-    while i < len(cell_a_explorer):
+    while len(cell_a_explorer)>i:
         if getContenuCellule(getCelluleGrilleDemineur(grille, cell_a_explorer[i])) == 0:
-            cell_voisine = getCoordonneeVoisinsGrilleDemineur(grille, coord)
+            cell_voisine = getCoordonneeVoisinsGrilleDemineur(grille, cell_a_explorer[i])
             for j in cell_voisine:
-                co_decouvert.append(j)
-                if getContenuCellule(getCelluleGrilleDemineur(grille, j)) == 0:
+                if not(j in co_decouvert):
+                    co_decouvert.append(j)
+                if getContenuCellule(getCelluleGrilleDemineur(grille, j)) == 0 and not(j in cell_a_explorer):
                     cell_a_explorer.append(j)
     return set(co_decouvert)
