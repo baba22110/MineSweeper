@@ -253,6 +253,7 @@ def decouvrirGrilleDemineur(grille: list, coord: tuple) -> set:
             for j in cell_voisine:
                 if not(j in co_decouvert):
                     co_decouvert.append(j)
-                if getContenuCellule(getCelluleGrilleDemineur(grille, j)) == 0 and not(j in cell_a_explorer):
+                if getContenuCellule(getCelluleGrilleDemineur(grille, j)) == 0 and not(j in cell_a_explorer) and isVisibleCellule(getCelluleGrilleDemineur(grille,j)) == False:
                     cell_a_explorer.append(j)
+        i += 1
     return set(co_decouvert)
