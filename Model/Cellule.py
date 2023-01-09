@@ -127,8 +127,12 @@ def isAnnotationCorrecte(anno: str) -> bool:
     return anno == None or anno == const.DOUTE or anno == const.FLAG
 
 
-def getAnnotationCellule(cellule: dict):
-
+def getAnnotationCellule(cellule: dict) -> str:
+    '''
+    envoie l'annotation de la cellule passez en paramètre
+    :param cellule: la cellule
+    :return: l'annotation de la cellule
+    '''
     if type_cellule(cellule) == False:
         raise TypeError("getAnnotationCellule : le paramètre valeur_du paramètre n’est pas une cellule")
     if len(cellule) != 3:
@@ -137,6 +141,11 @@ def getAnnotationCellule(cellule: dict):
 
 
 def changeAnnotationCellule(cellule: dict) -> None:
+    '''
+    change l'annotation de la cellule passez en paramètre selon un paterne (None -> const.FLAG -> const.DOUTE -> None)
+    :param cellule: la cellule
+    :return: rien
+    '''
     if type_cellule(cellule) == False:
         raise TypeError("changeAnnotationCellule : le paramètre n’est pas une cellule")
     anno = getAnnotationCellule(cellule)
@@ -151,6 +160,11 @@ def changeAnnotationCellule(cellule: dict) -> None:
 
 
 def reinitialiserCellule(cellule: dict) -> None:
+    '''
+    elle réinitialise la cellule passez en paramètre en cahngent sont contenue par 0, ca visiblité par False, et sont annotation par None
+    :param cellule: la cellule
+    :return: rien
+    '''
     setContenuCellule(cellule,0)
     setVisibleCellule(cellule,False)
     while getAnnotationCellule(cellule) != None:
