@@ -93,6 +93,12 @@ def setContenuCellule(cellule:dict,contenu:int) -> None :
 
 
 def setVisibleCellule(cellule: dict, visible: bool) -> None:
+    '''
+    change la visibiliter de la cellule voulue
+    :param cellule: la cellule voulue
+    :param visible: la visibiliter voulue de la cellule
+    :return: rien
+    '''
     if type_cellule(cellule) == False:
         raise TypeError(" setVisibleCellule : Le premier paramètre n’est pas une cellule.")
     if type(visible) != bool:
@@ -102,16 +108,27 @@ def setVisibleCellule(cellule: dict, visible: bool) -> None:
 
 
 def contientMineCellule(cellule: dict) -> bool:
+    '''
+    envoie si la cellule contient une mine ou non
+    :param cellule: la cellule
+    :return: True si la cellule contient une mine, False sinon
+    '''
     if type_cellule(cellule) == False:
         raise TypeError("contientMineCellule : Le paramètre n’est pas une cellule.")
     return cellule[const.CONTENU] == const.ID_MINE
 
 
 def isAnnotationCorrecte(anno: str) -> bool:
+    '''
+    verifie si l'annotation passer en paramètre est bonne ou non
+    :param anno: l'annotation voulue
+    :return: True si l'annotation est bonne, False sinon
+    '''
     return anno == None or anno == const.DOUTE or anno == const.FLAG
 
 
 def getAnnotationCellule(cellule: dict):
+
     if type_cellule(cellule) == False:
         raise TypeError("getAnnotationCellule : le paramètre valeur_du paramètre n’est pas une cellule")
     if len(cellule) != 3:
