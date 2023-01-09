@@ -278,6 +278,44 @@ def simplifierGrilleDemineur(grille: list, coord: tuple) -> set:
 
 
 def ajouterFlagsGrilleDemineur(grille: list, coord: tuple) -> set:
+    resultat = []
+    cellule = getCelluleGrilleDemineur(grille, coord)
     voisins = getCoordonneeVoisinsGrilleDemineur(grille, coord)
+    nb_cell = 0
     for co_voisines in voisins:
         cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
+        if isVisibleCellule(cell_voisines) == False:
+            nb_cell += 1
+    if nb_cell == getContenuCellule(cellule):
+        for co_voisines in voisins:
+            cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
+            if isVisibleCellule(cell_voisines) == False and getAnnotationCellule(cell_voisines) == None:
+                changeAnnotationCellule(cell_voisines)
+                resultat.append(co_voisines)
+    return set(resultat)
+
+
+def simplifierToutGrilleDemineur(grille: list) -> tuple:
+    cell_deja_faite = []
+    nb_col = getNbColonnesGrilleDemineur(grille)
+    nb_lig = getNbLignesGrilleDemineur(grille)
+    modif = 1
+    coord_ajout_drapeau = []
+    coord_rendue_visible = []
+    while modif > 0:
+        modif = 0
+        for j in range(nb_lig):
+            for i in range(nb_col):
+                coord = (j, i)
+                ajout_flag = ajouterFlagsGrilleDemineur(grille, coord)
+                simplifier = simplifierGrilleDemineur(grille, coord)
+                if not (coord in cell_deja_faite) and (len(ajout_flag) != 0 or len(simplifier) != 0):
+                    cell_deja_faite.append(coord)
+                    modif = 1
+                    if len(ajout_flag) != 0:
+                        for co in ajout_flag:
+                            coord_ajout_drapeau.append(co)
+                    if len(simplifier) != 0:
+                        for co in simplifier:
+                            coord_rendue_visible.append(co)
+    return (set(coord_rendue_visible),set(coord_ajout_drapeau))
