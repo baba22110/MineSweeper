@@ -24,32 +24,64 @@ def type_cellule(cell: dict) -> bool:
 
 
 def isContenuCorrect(n: int) -> bool:
+    '''
+    elle dit si le contenue placer en paramètre est correct
+    :param n: le contenue voulant etre verifier
+    :return: True si le contenue est bon et False sinon
+    '''
+    #vérifie le type du contenue si il est différent de int
     if type(n) != int:
         return False
+    #retourne True si le contenue est bon et False sinon
     return (n >= 0 and n <= 8) or (n == const.ID_MINE)
 
 
 def construireCellule (contenu = 0, visible = False) -> dict:
+    '''
+    elle construie une cellule avec le contenu et la visibiliter passer en paramètre
+    :param contenu: le contenue voulue initialiser a 0
+    :param visible: la visibiliter de la cellule initialiser a False donc non visible
+    :return: la cellule créer
+    '''
+    # vérifie si le contenu est correct, sinon elle envoie un raise ValueError
     if isContenuCorrect(contenu) == False:
         raise ValueError(f"construireCellule : le contenu ({contenu}) n'est pas correct")
+    # vérifie si visible est de bon type, sinon elle envoie un raise TypeError
     if type(visible) != bool:
         raise TypeError(f"construireCellule : le second paramètre ({type(visible)}) n'est pas un booléen")
+    # retourne la cellule
     return {const.CONTENU: contenu, const.VISIBLE: visible, const.ANNOTATION: None}
 
 
 def getContenuCellule(cellule:dict) -> int:
+    '''
+    elle retourne le contenue de la cellule
+    :param cellule: la cellule
+    :return: le contenue
+    '''
     if type_cellule(cellule) == False :
         raise TypeError("getContenuCellule : Le paramètre n’est pas une cellule.")
     return cellule[const.CONTENU]
 
 
 def isVisibleCellule(cellule:dict) -> bool:
+    '''
+    renvoie la visibiliter de la cellule passer en paramètre
+    :param cellule: la cellule voulue
+    :return: la visibiliiter, True si visible, False sinon
+    '''
     if type_cellule(cellule) == False :
         raise TypeError("isVisibleCellule : Le paramètre n’est pas une cellule.")
     return cellule[const.VISIBLE]
 
 
 def setContenuCellule(cellule:dict,contenu:int) -> None :
+    '''
+    change le contenue de la cellule placer en paramètre par le contenu
+    :param cellule: la cellule voulue
+    :param contenu: le contenue
+    :return: rien
+    '''
     if type(contenu) != int:
         raise TypeError("setContenuCellule : Le second paramètre n’est pas un entier.")
     if not ((contenu >= 0 and contenu <= 8) or (contenu == const.ID_MINE)):

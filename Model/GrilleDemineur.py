@@ -54,18 +54,35 @@ def type_grille_demineur(grille: list) -> bool:
 
 
 def construireGrilleDemineur(nb_ligne: int, nb_colonnes: int) -> list:
+    '''
+    creer une grille avec de nombre de ligne voulue et le nombre de colonnes voulue 
+    :param nb_ligne: le nombre de ligne voulue
+    :param nb_colonnes: le nombre de colonnes voulue 
+    :return:
+    '''
+    # Si le type de nb_ligne ou de nb_colonnes n'est pas un entier, lever une exception TypeError
     if type(nb_ligne) != int or type(nb_colonnes) != int:
         raise TypeError(
             f"construireGrilleDemineur : Le nombre de lignes ({nb_ligne}) ou de colonnes ({nb_colonnes}) n’est pas un entier.")
+    # Si nb_ligne ou nb_colonnes est négatif ou nul, lever une exception ValueError
     if nb_ligne <= 0 or nb_colonnes <= 0:
         raise ValueError(
             f" construireGrilleDemineur : Le nombre de lignes ({nb_ligne}) ou de colonnes ({nb_colonnes}) est négatif ou nul.")
+
+    # Initialiser une liste vide pour stocker la grille
     grille = []
+    # Pour chaque ligne de la grille
     for i in range(nb_ligne):
+        # Initialiser une liste vide pour stocker les colonnes de la ligne actuelle
         col = []
+        # Pour chaque colonne de la ligne actuelle
         for j in range(nb_colonnes):
+            # Ajouter une cellule à la liste des colonnes
             col.append(construireCellule())
+        # Ajouter les colonnes de la ligne actuelle à la grille
         grille.append(col)
+
+    # Retourner la grille
     return grille
 
 
@@ -313,9 +330,7 @@ def simplifierToutGrilleDemineur(grille: list) -> tuple:
                     cell_deja_faite.append(coord)
                     modif = 1
                     if len(ajout_flag) != 0:
-                        for co in ajout_flag:
-                            coord_ajout_drapeau.append(co)
+                        coord_ajout_drapeau.append(ajout_flag)
                     if len(simplifier) != 0:
-                        for co in simplifier:
-                            coord_rendue_visible.append(co)
+                        coord_rendue_visible.append(simplifier)
     return (set(coord_rendue_visible),set(coord_ajout_drapeau))
