@@ -395,17 +395,22 @@ def simplifierGrilleDemineur(grille: list, coordonnee: tuple) -> set:
     :return: l’ensemble des coordonnées des cases rendues visibles
     '''
     res = []
-    cell_a_explorer = []
-    l = getCoordonneeVoisinsGrilleDemineur(grille, coordonnee)
-
-    cmpt = 0
-    for i in range(len(l)):
-        if isVisibleGrilleDemineur(grille, l[i]) == False and getAnnotationGrilleDemineur(grille, l[i]) != const.FLAG and contientMineGrilleDemineur(grille, l[i]) == False:
-            res.append(l[i])
-        if getAnnotationGrilleDemineur(grille, l[i]) == const.FLAG:
-            cmpt += 1
-    if cmpt != getContenuGrilleDemineur(grille, coordonnee):
-        res = []
+    co_a_explorer = []
+    co_a_explorer.append(coordonnee)
+    j = 0
+    while len(co_a_explorer) > j:
+        l = getCoordonneeVoisinsGrilleDemineur(grille, co_a_explorer[j])
+        cmpt = 0
+        for i in range (len(l)):
+            if getAnnotationGrilleDemineur(grille, l[i]) == const.FLAG:
+                cmpt += 1
+        if cmpt == getContenuGrilleDemineur(grille, co_a_explorer[j]):
+            for i in range(len(l)):
+                if isVisibleGrilleDemineur(grille, l[i]) == False and getAnnotationGrilleDemineur(grille, l[i]) != const.FLAG and contientMineGrilleDemineur(grille, l[i]) == False:
+                    res.append(l[i])
+                    if not l[i] in co_a_explorer:
+                        co_a_explorer.append(l[i])
+        j += 1
     return res
 
 
@@ -432,7 +437,7 @@ def ajouterFlagsGrilleDemineur(grille: list, coord: tuple) -> set:
             if isVisibleCellule(cell_voisines) == False and getAnnotationCellule(cell_voisines) == None:
                 changeAnnotationCellule(cell_voisines)
                 resultat.append(co_voisines)
-    return set(resultat)
+    return resultat
 
 
 def simplifierToutGrilleDemineur(grille: list) -> tuple:
