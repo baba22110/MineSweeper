@@ -154,7 +154,7 @@ def changeAnnotationCellule(cellule: dict) -> None:
             cellule[const.ANNOTATION] = const.FLAG
         elif anno == const.FLAG:
             cellule[const.ANNOTATION] = const.DOUTE
-        if anno == const.DOUTE:
+        elif anno == const.DOUTE:
             cellule[const.ANNOTATION] = None
     return None
 

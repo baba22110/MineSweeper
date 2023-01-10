@@ -79,7 +79,7 @@ def construireGrilleDemineur(nb_ligne: int, nb_colonnes: int) -> list:
         for j in range(nb_colonnes):
             # Ajouter une cellule à la liste des colonnes
             col.append(construireCellule())
-        # Ajouter les colonnes de la ligne actuelle à la grille
+        # Ajouter les colonnes de la ligne actuelle à la grille donc créer une ligne
         grille.append(col)
 
     # Retourner la grille
@@ -145,7 +145,7 @@ def getContenuGrilleDemineur(grille: list, coord: tuple) -> int:
     return getContenuCellule(getCelluleGrilleDemineur(grille, coord))
 
 
-def setContenuGrilleDemineur(grille: list, coord: tuple, contenu: int) -> bool:
+def setContenuGrilleDemineur(grille: list, coord: tuple, contenu: int) -> None:
     '''
     change le contenue de la cellule au coordonnée passez en paramètre par le contenue passez en paramètre
     :param grille: la grille
@@ -385,7 +385,7 @@ def decouvrirGrilleDemineur(grille: list, coord: tuple) -> set:
     return set(co_decouvert)
 
 
-def simplifierGrilleDemineur(grille: list, coord: tuple) -> set:
+def simplifierGrilleDemineur(grille: list, coordonnee: tuple) -> set:
     '''
     la fonction compte le nombre de drapeaux dans le voisinage de cette case. Si ce nombre
     correspond exactement au contenu de la case, la fonction rend toutes les autres cases voisines
@@ -394,21 +394,20 @@ def simplifierGrilleDemineur(grille: list, coord: tuple) -> set:
     :param coord: la coordonnée
     :return: l’ensemble des coordonnées des cases rendues visibles
     '''
-    resultat = []
-    cellule = getCelluleGrilleDemineur(grille, coord)
-    if isVisibleCellule(cellule) == True:
-        voisins = getCoordonneeVoisinsGrilleDemineur(grille, coord)
-        nb_drapeau = 0
-        for co_voisines in voisins:
-            cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
-            if getAnnotationCellule(cell_voisines) == const.FLAG:
-                nb_drapeau += 1
-        if nb_drapeau == getContenuCellule(cellule):
-            for co_voisines in voisins:
-                cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
-                if getAnnotationGrilleDemineur(grille, co_voisines) == None and isVisibleCellule(cell_voisines) == False:
-                    resultat.append(co_voisines)
-    return set(resultat)
+    res = []
+    cell_a_explorer = []
+    l = getCoordonneeVoisinsGrilleDemineur(grille, coordonnee)
+
+    cmpt = 0
+    for i in range(len(l)):
+        if isVisibleGrilleDemineur(grille, l[i]) == False and getAnnotationGrilleDemineur(grille, l[i]) != const.FLAG and contientMineGrilleDemineur(grille, l[i]) == False:
+            res.append(l[i])
+        if getAnnotationGrilleDemineur(grille, l[i]) == const.FLAG:
+            cmpt += 1
+    if cmpt != getContenuGrilleDemineur(grille, coordonnee):
+        res = []
+    return res
+
 
 
 def ajouterFlagsGrilleDemineur(grille: list, coord: tuple) -> set:
