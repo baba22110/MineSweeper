@@ -285,10 +285,10 @@ def getNbMinesGrilleDemineur(grille: list) -> int:
 
 def getAnnotationGrilleDemineur(grille: list, coord: tuple):
     '''
-    change l'annotation de la cellule au coordonnée passez en paramètre
+    la fonction retourne  l'annotation de la cellule au coordonnée passez en paramètre
     :param grille: la grille
     :param coord: la coordonnée
-    :return: change l'annotation de la cellule
+    :return: l'annotation de la cellule
     '''
     return getAnnotationCellule(getCelluleGrilleDemineur(grille, coord))
 
