@@ -25,7 +25,7 @@ def type_cellule(cell: dict) -> bool:
 
 def isContenuCorrect(n: int) -> bool:
     '''
-    elle dit si le contenue placer en paramètre est correct
+    cette fonction retourne si le contenue placer en paramètre est correct
     :param n: le contenue voulant etre verifier
     :return: True si le contenue est bon et False sinon
     '''

@@ -118,8 +118,7 @@ def isCoordonneeCorrecte(grille: list, coord: tuple) -> bool:
     '''
     if type_grille_demineur(grille) == False or type(coord) != tuple:
         raise TypeError("isCoordonneeCorrecte : un des paramètres n’est pas du bon type.")
-    return getNbLignesGrilleDemineur(grille) > coord[0] and getNbColonnesGrilleDemineur(grille) > coord[1] and coord[
-        0] >= 0 and coord[1] >= 0
+    return getNbLignesGrilleDemineur(grille) > coord[0] and getNbColonnesGrilleDemineur(grille) > coord[1] and coord[0] >= 0 and coord[1] >= 0
 
 
 def getCelluleGrilleDemineur(grille: list, coord: tuple) -> dict:
