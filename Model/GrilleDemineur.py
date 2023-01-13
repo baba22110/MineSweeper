@@ -1,4 +1,5 @@
 # GrilleDemineur.py
+import sre_constants
 
 from Model.Cellule import *
 from Model.Coordonnee import *
@@ -322,10 +323,12 @@ def gagneGrilleDemineur(grille: list) -> bool:
     nb_lig = getNbLignesGrilleDemineur(grille)
     for j in range(nb_lig):
         for i in range(nb_col):
-            co = (j, i)
-            if (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == False and getContenuGrilleDemineur(grille, co) != const.ID_MINE) \
-                    or (isVisibleCellule(getCelluleGrilleDemineur(grille, co)) == True and getContenuGrilleDemineur(grille, co) == const.ID_MINE) \
-                    or getMinesRestantesGrilleDemineur(grille) > 0:
+            coord = (j, i)
+            if getContenuGrilleDemineur(grille,coord) != const.ID_MINE and isVisibleGrilleDemineur(grille, coord) != True:
+                return False
+            elif getContenuGrilleDemineur(grille,coord) == const.ID_MINE and isVisibleGrilleDemineur(grille,coord) == True:
+                return False
+            elif getContenuGrilleDemineur(grille,coord) == const.ID_MINE and isVisibleGrilleDemineur(grille, coord) == False and getAnnotationGrilleDemineur(grille, coord) != const.FLAG:
                 return False
     return True
 
@@ -388,6 +391,7 @@ def decouvrirGrilleDemineur(grille: list, coord: tuple) -> set:
     return set(co_decouvert)
 
 
+
 def simplifierGrilleDemineur(grille: list, coordonnee: tuple) -> set:
     '''
     la fonction compte le nombre de drapeaux dans le voisinage de cette case. Si ce nombre
@@ -426,58 +430,31 @@ def ajouterFlagsGrilleDemineur(grille: list, coord: tuple) -> set:
     :param coord: la coordonnée
     :return: l’ensemble des coordonnées des cellules sur lesquelles elle a placé un drapeau
     '''
-    nb_cell = 0
-    voisins = getCoordonneeVoisinsGrilleDemineur(grille, coord)
-    voisins_flags = set()
-    cellule = getCelluleGrilleDemineur(grille, coord)
-    for co_voisines in voisins:
-        cell_voisines = getCelluleGrilleDemineur(grille, co_voisines)
-        if not isVisibleCellule(cell_voisines):
-            nb_cell += 1
-            voisins_flags.add(co_voisines)
-    if getContenuCellule(cellule) == nb_cell:
-        for co_voisines_flags in voisins_flags:
-            cell_voisines_flags = getCelluleGrilleDemineur(grille, co_voisines_flags)
-            changeAnnotationCellule(cell_voisines_flags)
-    else:
-        voisins_flags = set()
-    return voisins_flags
+    coord_flags = set()
+    nb_flag = 0
+    coord_voisins_flags = []
+    for voisins in getCoordonneeVoisinsGrilleDemineur(grille, coord):
+        if isVisibleGrilleDemineur(grille,voisins) == False:
+            coord_voisins_flags.append(voisins)
+            nb_flag += 1
+    if nb_flag == getContenuGrilleDemineur(grille, coord):
+        for voisins_flag in coord_voisins_flags:
+            getCelluleGrilleDemineur(grille,voisins_flag)[const.ANNOTATION] = const.FLAG
+            coord_flags.add(voisins_flag)
+    return coord_flags
 
 
 def simplifierToutGrilleDemineur(grille: list) -> tuple:
     visibles = set()
     flags = set()
-    for j in range(len(grille)):
-        for i in range(len(grille[0])):
-            coord = (j, i)
-            cell = getCelluleGrilleDemineur(grille,coord)
-            if isVisibleCellule(cell) == True and not contientMineCellule(cell):
-                new_visibles = simplifierGrilleDemineur(grille, coord)
-                if len(new_visibles) > 0:
-                    visibles.update(new_visibles)
-                new_flags = ajouterFlagsGrilleDemineur(grille, coord)
-                if len(new_flags) > 0:
-                    flags.update(new_flags)
-    return (visibles, flags)
-    '''
-    visibles = set()
-    flags = set()
-    modification = True
-    while modification:
-        modification = False
+    while gagneGrilleDemineur(grille) == False:
         for j in range(len(grille)):
             for i in range(len(grille[0])):
                 coord = (j, i)
-                cell = getCelluleGrilleDemineur(grille, coord)
-                if isVisibleCellule(cell) and not contientMineCellule(cell):
-                    new_visibles = simplifierGrilleDemineur(grille, coord)
-                    if len(new_visibles) > 0:
-                        modification = True
-                        visibles.update(new_visibles)
-                if not contientMineCellule(cell):
-                    new_flags = ajouterFlagsGrilleDemineur(grille, coord)
-                    if len(new_flags) > 0:
-                        modification = True
-                        flags.update(new_flags)
+                visibles.union(simplifierGrilleDemineur(grille,coord))
+                flags.union(ajouterFlagsGrilleDemineur(grille,coord))
+        for j in range(len(grille)):
+            for i in range(len(grille[0])):
+                coord = (j, i)
+                setVisibleGrilleDemineur(grille, coord, True)
     return (visibles, flags)
-    '''
